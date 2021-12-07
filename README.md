@@ -38,5 +38,4 @@ An example input file is provided in the Datasets folder. To run the example, ex
 ./bundle_trunc ../Datasets/problem-16-22106-pre.txt
 ```
 
-## Bug report:
 
