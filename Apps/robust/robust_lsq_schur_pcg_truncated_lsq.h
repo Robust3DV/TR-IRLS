@@ -97,9 +97,7 @@ namespace Robust_LSQ{
                 for (int iter = 0; iter < maxIterations; iter++){
 
                     if (iter % 1==0) {
-                        /* _tau *= 0.8; */
-                        _mu *= 1.05;
-                        /* _slope *= 0.8; */
+                        _mu *= 1.02;
                     }
 
                     //Cache residuals 
@@ -118,14 +116,10 @@ namespace Robust_LSQ{
                         cached_weights[0][k] = 0.5;
                         /* double tauk = 0.001; */
                         if (ek > 1.0){
-                            double tauk = 1/_mu*(2*(ek -1) + 4 * (ek-1)*(ek-1)*_mu * _mu + 2 * _mu * (ek-1));
-                            if (tauk <= ek -1)
-                                tauk = 1.0;
-
+                            double tauk = 1/_mu*(2*(ek -1) + sqrt(4 * (ek-1)*(ek-1)*_mu * _mu + 2 * _mu * (ek-1)));
                             double const zbar = clamp((ek + _mu * tauk * zstar - 0.5 * tauk)/(1 + _mu * tauk));
-                            cached_weights[0][k] = sqrt((zstar - zbar)/tauk);
+                            cached_weights[0][k] = ((zstar - zbar)/tauk);
                         }
-
                     }
 
                     std::cout << "iter : " << iter << 
@@ -180,7 +174,7 @@ namespace Robust_LSQ{
             double _tau = 5.0;
             double _slope = 0.00;
             double _scale = 0.5; // Potentially used for GNC-type algorithms 
-            double _mu = 1.0;
+            double _mu = 0.5;
 
         };
     }// end namespace Robust_LSQ
